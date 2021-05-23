@@ -91,7 +91,7 @@ app.get('/movies', (req, res) => {
 });
 
 //use requests
-app.use('public/documentation.html', express.static('public'));
+app.use('/', express.static('public'));
 
 // listen for requests
 app.listen(8080, () =>{
