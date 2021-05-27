@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>myFlix</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
@@ -12,5 +13,98 @@
 application will provide users with access to information about different
 movies, directors, and genres. Users will be able to sign up, update their
 personal information, and create a list of their favorite movies.</p>
+<table class="table-bordered">
+<caption>Documentation</caption>
+<thead>
+  <tr class="table-primary">
+    <th scope="col">Description of what kind of data will be returned</th>
+    <th scope="col">Endpoint URL</th>
+    <th scope="col">HTTP Method</th>
+    <th scope="col">Query Parameters</th>
+    <th scope="col">Request body data format</th>
+    <th scope="col">Response body data format</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <th scope="row">Get a list of movies</th>
+    <td>/movies</td>
+    <td>GET</td>
+    <td>none</td>
+    <td>none</td>
+    <td>A JSON object holding data about all the movies</td>
+  </tr>
+  <tr>
+    <th scope="row">Get data about a single movie by name/title</th>
+    <td>/movies/[name]/[title]</td>
+    <td>GET</td>
+    <td>/movies/:name/:title</td>
+    <td>none</td>
+    <td>A JSON object holding data about a single movie, containing description, genre, director, image URL and whether it’s featured or not</td>
+  </tr>
+  <tr>
+    <th scope="row">Get data about a genre by title</th>
+    <td>/movies/genre/[title]</td>
+    <td>GET</td>
+    <td>/movies/genre/:title</td>
+    <td>none</td>
+    <td>A JSON object holding data about a genre</td>
+  </tr>
+  <tr>
+    <th scope="row">Get data about a director by name</th>
+    <td>/director/[name]</td>
+    <td>GET</td>
+    <td>/director/:name</td>
+    <td>none</td>
+    <td>A JSON object holding data about a director, containing bio, birth year and death year</td>
+  </tr>
+  <tr>
+    <th scope="row">Add data for a new user to register</th>
+    <td>/users</td>
+    <td>POST</td>
+    <td>none</td>
+    <td>A JSON object holding data about the user to add username, password, email and date of birth. <br>For example:
+{
+    username: 'Jessica Drake',
+    password: 'xxxxxxxx',
+    email: 'j.drake@gmail.com',
+    date of birth: 'dd/mm/yyyy',
+  }</td>
+    <td>A JSON object holding data (e.g. username, password, email and date of birth) about the new user that was added, including an unique ID </td>
+  </tr>
+  <tr>
+    <th scope="row">Update user info</th>
+    <td>/users/[username]</td>
+    <td>PUT</td>
+    <td>/users/:username</td>
+    <td>none</td>
+    <td>A JSON object holding data (e.g. username, password, email and date of birth) about the updated info</td>
+  </tr>
+  <tr>
+    <th scope="row">Add a movie to users list of favorite movies</th>
+    <td>/users/[username]/movies/[moviesID]</td>
+    <td>POST</td>
+    <td>/users/[username]/movies/:moviesID</td>
+    <td>none</td>
+    <td>A text message indicating that a movie was updated to the user favorite list</td>
+  </tr>
+  <tr>
+    <th scope="row">Remove a movie to users list of favorite movies</th>
+    <td>/users/[username]/movies/[moviesID]</td>
+    <td>DELETE</td>
+    <td>/users/[username]/movies/:moviesID</td>
+    <td>none</td>
+    <td>A text message indicating that a movie was removed from the user favorite list</td>
+  </tr>
+  <tr>
+    <th scope="row">Remove data from a user to degister</th>
+    <td>/users/[username]</td>
+    <td>DELETE</td>
+    <td>/users/:username</td>
+    <td>none</td>
+    <td>A text message indicating that a user email was removed</td>
+  </tr>
+</tbody>
+</table>
   </body>
 </html>
