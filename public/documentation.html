@@ -84,7 +84,7 @@ personal information, and create a list of their favorite movies.</p>
     <th scope="row">Add a movie to users list of favorite movies</th>
     <td>/users/[username]/movies/[moviesID]</td>
     <td>POST</td>
-    <td>/users/[username]/movies/:moviesID</td>
+    <td>/users/:username/movies/:moviesID</td>
     <td>none</td>
     <td>A text message indicating that a movie was updated to the user favorite list</td>
   </tr>
@@ -92,7 +92,7 @@ personal information, and create a list of their favorite movies.</p>
     <th scope="row">Remove a movie to users list of favorite movies</th>
     <td>/users/[username]/movies/[moviesID]</td>
     <td>DELETE</td>
-    <td>/users/[username]/movies/:moviesID</td>
+    <td>/users/:username:/movies/:moviesID</td>
     <td>none</td>
     <td>A text message indicating that a movie was removed from the user favorite list</td>
   </tr>
