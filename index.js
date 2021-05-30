@@ -161,12 +161,12 @@ app.put('/users/:username', (req, res) => {
 });
 
 // Add a movie to users list of favorite movies by username
-app.post('/users/[username]/movies/:moviesID', (req, res) => {
+app.post('/users/:username/movies/:moviesID', (req, res) => {
   res.send('add a movie to users list of favorite movies by username');
 });
 
 // Remove a movie to users list of favorite movies by username
-app.delete('/users/[username]/movies/:moviesID', (req, res) => {
+app.delete('/users/:username/movies/:moviesID', (req, res) => {
   res.send('remove a movie to users list of favorite movies by username');
 });
 
