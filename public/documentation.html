@@ -65,12 +65,12 @@ personal information, and create a list of their favorite movies.</p>
     <td>none</td>
     <td>A JSON object holding data about the user to add username, password, email and date of birth. <br>For example:
 {
-    username: 'Jessica Drake',
-    password: 'xxxxxxxx',
-    email: 'j.drake@gmail.com',
-    date of birth: 'dd/mm/yyyy',
+    Username: 'Jessica123',
+    Password: 'xxxxxxxx',
+    Email: 'j.drake@gmail.com',
+    Birthday: 'yyyy-mm-dd',
   }</td>
-    <td>A JSON object holding data (e.g. username, password, email and date of birth) about the new user that was added, including an unique ID </td>
+    <td>A JSON object holding data (e.g. username, password, email and birthday) about the new user that was added, including an unique ID </td>
   </tr>
   <tr>
     <th scope="row">Update user info</th>
@@ -89,7 +89,7 @@ personal information, and create a list of their favorite movies.</p>
     <td>A text message indicating that a movie was updated to the user favorite list</td>
   </tr>
   <tr>
-    <th scope="row">Remove a movie to users list of favorite movies</th>
+    <th scope="row">Remove a movie from users list of favorite movies</th>
     <td>/users/[username]/movies/[moviesID]</td>
     <td>DELETE</td>
     <td>/users/:username:/movies/:moviesID</td>
@@ -102,7 +102,7 @@ personal information, and create a list of their favorite movies.</p>
     <td>DELETE</td>
     <td>/users/:username</td>
     <td>none</td>
-    <td>A text message indicating that a user email was removed</td>
+    <td>A text message indicating that a user was removed</td>
   </tr>
 </tbody>
 </table>
