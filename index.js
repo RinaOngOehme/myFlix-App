@@ -5,6 +5,8 @@ const uuid = require('uuid');
 const cors = require('cors');
 app.use(cors());
 
+const {check, validationResult} = require('express-validator');
+
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
@@ -16,7 +18,11 @@ const Directors = Models.Director;
 const passport = require('passport');
 require('./passport');
 
-mongoose.connect('mongodb://localhost:27017/myFlixDB', {
+//mongoose.connect('mongodb://localhost:27017/myFlixDB', {
+  //useNewUrlParser: true,
+  //useUnifiedTopology: true
+//});
+mongoose.connect('process.env.CONNECTION_URI', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -105,7 +111,19 @@ app.get('/director/:name', passport.authenticate('jwt', {
   Email: String,
   Birthday: Date
 }*/
-app.post('/users', (req, res) => {
+app.post('/users', [check('Username', 'Username is required').isLength({min: 6}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()], (req, res) => {
+    // check the validation object for errors
+     let errors = validationResult(req);
+
+     if (!errors.isEmpty()) {
+       return res.status(422).json({
+         errors: errors.array()
+       });
+     }
+  let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({
       Username: req.body.Username
     })
@@ -147,9 +165,21 @@ app.post('/users', (req, res) => {
   (required)
   Birthday: Date
 }*/
-app.put('/users/:Username', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
+app.put('/users/:Username', [check('Username', 'Username is required').isLength({min: 6}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()], passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+      // check the validation object for errors
+       let errors = validationResult(req);
+
+       if (!errors.isEmpty()) {
+         return res.status(422).json({
+           errors: errors.array()
+         });
+       }
+  let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOneAndUpdate({
       Username: req.params.Username
     }, {
@@ -174,9 +204,21 @@ app.put('/users/:Username', passport.authenticate('jwt', {
 
 
 // Add a movie to a user's list of favorites
-app.post('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {
+app.post('/users/:Username/Movies/:MovieID', [check('Username', 'Username is required').isLength({min: 6}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()], passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
+  // check the validation object for errors
+   let errors = validationResult(req);
+
+   if (!errors.isEmpty()) {
+     return res.status(422).json({
+       errors: errors.array()
+     });
+   }
+let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOneAndUpdate({
       Username: req.params.Username
     }, {
