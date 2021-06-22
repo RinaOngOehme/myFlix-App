@@ -18,11 +18,7 @@ const Directors = Models.Director;
 const passport = require('passport');
 require('./passport');
 
-//mongoose.connect('mongodb://localhost:27017/myFlixDB', {
-  //useNewUrlParser: true,
-  //useUnifiedTopology: true
-//});
-mongoose.connect('process.env.CONNECTION_URI', {
+mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -134,7 +130,7 @@ app.post('/users', [check('Username', 'Username is required').isLength({min: 6})
         Users
           .create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
@@ -300,15 +296,16 @@ app.get('/users/:Username', passport.authenticate('jwt', {
 
 //use requests
 app.use('/', express.static('public'));
+app.use('/documentation', express.static('public/documentation.html'));
 
 // listen for requests
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0',() => {
  console.log('Listening on Port ' + port);
 });
 
 //error handling
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Error!');
 });
