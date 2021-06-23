@@ -12,15 +12,14 @@ const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
-const Genre = Models.Genre;
-const Directors = Models.Director;
+
 
 const passport = require('passport');
 require('./passport');
 
 mongoose.connect(process.env.CONNECTION_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+useNewUrlParser: true,
+useUnifiedTopology: true
 });
 
 app.use(bodyParser.json());
@@ -66,15 +65,11 @@ app.get('/movies/:Title', passport.authenticate('jwt', {
     });
 });
 
-// Get a Genre by Title
-app.get('/movies/genre/:title', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  Movies.Genre.findOne({
-      Title: req.params.Title
-    })
-    .then((genre) => {
-      res.json(genre.description);
+// Get a Genre by Name
+app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findOne({ 'Genre.Name': req.params.Genre })
+    .then((movie) => {
+      res.json(movie.Genre.Description);
     })
     .catch((err) => {
       console.error(err);
@@ -83,14 +78,10 @@ app.get('/movies/genre/:title', passport.authenticate('jwt', {
 });
 
 // Get a director by name
-app.get('/director/:name', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  Movies.Director.findOne({
-      Title: req.params.Name
-    })
-    .then((director) => {
-      res.json(director);
+app.get('/movies/director/:Director', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findOne({ 'Director.Name': req.params.Director })
+    .then((movie) => {
+      res.json(movie.Director);
     })
     .catch((err) => {
       console.error(err);
@@ -181,7 +172,7 @@ app.put('/users/:Username', [check('Username', 'Username is required').isLength(
     }, {
       $set: {
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: hashedPassword,
         Email: req.body.Email,
         Birthday: req.body.Birthday
       }
@@ -200,21 +191,9 @@ app.put('/users/:Username', [check('Username', 'Username is required').isLength(
 
 
 // Add a movie to a user's list of favorites
-app.post('/users/:Username/Movies/:MovieID', [check('Username', 'Username is required').isLength({min: 6}),
-    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-    check('Password', 'Password is required').not().isEmpty(),
-    check('Email', 'Email does not appear to be valid').isEmail()], passport.authenticate('jwt', {
+app.post('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
-  // check the validation object for errors
-   let errors = validationResult(req);
-
-   if (!errors.isEmpty()) {
-     return res.status(422).json({
-       errors: errors.array()
-     });
-   }
-let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOneAndUpdate({
       Username: req.params.Username
     }, {
