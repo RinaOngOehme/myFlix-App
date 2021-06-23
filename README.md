@@ -21,7 +21,7 @@ To build the server-side component of a "movies" web application. The web applic
 * https://myflixdb9278.herokuapp.com/
 
 **Link to Documentation**
-* https://github.com/RinaOngOehme/myFlix-App/blob/master/public/documentation.html
+* https://myflixdb9278.herokuapp.com/documentation.html
 
 **Platforms**
 * Chrome
